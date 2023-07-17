@@ -1,2 +1,3 @@
 # go-tips
-tips repo for golang
+
+My tips repo for golang. Implement sample-pattern codes that are frequently used.
