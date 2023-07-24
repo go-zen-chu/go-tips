@@ -1,0 +1,84 @@
+package github
+
+import (
+	"fmt"
+	"io"
+	"log"
+	"os"
+	"path/filepath"
+)
+
+type mockGitHubService struct {
+	AddedFilesContents map[string]string
+	tmpDir             string
+}
+
+func NewMockGitHubService() GitHubService {
+	return &mockGitHubService{
+		AddedFilesContents: make(map[string]string),
+	}
+}
+
+func (m *mockGitHubService) CloneCheckoutBranch(branch string) (string, error) {
+	td, err := os.MkdirTemp("", "test")
+	if err != nil {
+		return "", err
+	}
+  // Copy ./testdata contents to temp dir.
+  // This is effective when you have multiple files 
+	if err := copyTestData(td); err != nil {
+		return "", err
+	}
+	m.tmpDir = td
+	return td, nil
+}
+
+func copyTestData(dstPath string) error {
+  // has to run test from repository root (otherwise you will get file not found)
+  curDir, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	testDir := filepath.Join(curDir, "testdata")
+	return filepath.Walk(testDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		relPath, err := filepath.Rel(testDir, path)
+		if err != nil {
+			return err
+		}
+		dp := filepath.Join(dstPath, relPath)
+		if info.IsDir() {
+			return os.MkdirAll(dp, info.Mode())
+		}
+		srcFile, err := os.Open(path)
+		if err != nil {
+			return err
+		}
+		defer srcFile.Close()
+		dstFile, err := os.Create(dp)
+		if err != nil {
+			return err
+		}
+		defer dstFile.Close()
+		_, err = io.Copy(dstFile, srcFile)
+		return err
+	})
+}
+
+func (m *mockGitHubService) AddFileChange(fileRelPath string) error {
+	log.Printf("add file: %s", fileRelPath)
+	bt, err := os.ReadFile(filepath.Join(m.tmpDir, fileRelPath))
+	if err != nil {
+		return fmt.Errorf("mock github service add file %s: %w", fileRelPath, err)
+	}
+  // store file contents to map so you can check whether file contents are valid after running test 
+	m.AddedFilesContents[fileRelPath] = string(bt)
+	return nil
+}
+
+func (m *mockGitHubService) CreatePR(prTitle, commitMsg, prBody string) error {
+	log.Printf("create pr: %s, %s, %s", prTitle, commitMsg, prBody)
+	return nil
+}
