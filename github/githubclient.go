@@ -117,6 +117,7 @@ func (c *ghclient) PullRequest(owner, repo, title, head, body, baseBranch string
 		Base:  &baseBranch,
 		Body:  &body,
 	}
+	// will get  422 Validation Failed [{Resource:PullRequest Field:head Code:invalid Message:} when head branch is not pushed to github
 	pr, _, err := c.client.PullRequests.Create(c.ctx, owner, repo, &npr)
 	if err != nil {
 		return "", fmt.Errorf("creating PullRequest : %s", err)
