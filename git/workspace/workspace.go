@@ -86,7 +86,7 @@ func (w *workspace) CommitFiles(branch, message string, fileRelPaths []string) e
 		}
 	}
 	if err = wt.Checkout(&git.CheckoutOptions{
-		Branch: plumbing.ReferenceName("refs/heads/" + branch),
+		Branch: plumbing.ReferenceName(fmt.Sprintf("refs/heads/%s", branch)),
 		Keep:   true,
 	}); err != nil {
 		return err
@@ -116,6 +116,7 @@ func (w *workspace) GitPush(branch string) error {
 	})
 }
 
+// Clear removes all contents in repo. Make it clean for not pushing something in progress
 func (w *workspace) Clear() error {
 	if err := os.RemoveAll(w.dir); err != nil {
 		return fmt.Errorf("failed to clear working dir: %w", err)

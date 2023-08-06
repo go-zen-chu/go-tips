@@ -53,7 +53,6 @@ func NewGitHubClient(baseURL string, token string, user string, mail string) (Cl
 		&oauth2.Token{AccessToken: token},
 	)
 	tc := oauth2.NewClient(ctx, ts)
-
 	cli, err := github.NewClient(baseURL, uploadURL, tc)
 	if err != nil {
 		return nil, fmt.Errorf("creating github enterprise client: %s", err)
