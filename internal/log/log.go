@@ -26,7 +26,7 @@ func Debug(vals ...interface{}) {
 
 // Debugf logs the formatted message at Debug level.
 func Debugf(format string, vals ...interface{}) {
-	lg.Debugf(format, vals)
+	lg.Debugf(format, vals...)
 }
 
 // Info logs the vals at Info level.
@@ -36,7 +36,7 @@ func Info(vals ...interface{}) {
 
 // Infof logs the formatted message at Info level.
 func Infof(format string, vals ...interface{}) {
-	lg.Infof(format, vals)
+	lg.Infof(format, vals...)
 }
 
 // Error logs the vals at Error level.
@@ -46,7 +46,7 @@ func Error(vals ...interface{}) {
 
 // Errorf logs the formatted message at Error level.
 func Errorf(format string, vals ...interface{}) {
-	lg.Errorf(format, vals)
+	lg.Errorf(format, vals...)
 }
 
 // Fatal logs the vals at Fatal level, then calls os.Exit(1).
@@ -56,5 +56,5 @@ func Fatal(vals ...interface{}) {
 
 // Fatalf logs the formatted message at Fatal level, then calls os.Exit(1).
 func Fatalf(format string, vals ...interface{}) {
-	lg.Fatalf(format, vals)
+	lg.Fatalf(format, vals...)
 }
