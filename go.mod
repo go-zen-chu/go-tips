@@ -1,6 +1,6 @@
 module github.com/go-zen-chu/go-tips
 
-go 1.19
+go 1.23.0
 
 require (
 	github.com/arran4/golang-ical v0.0.0-20230425234049-f69e132f2b0c
@@ -17,7 +17,7 @@ require (
 	dario.cat/mergo v1.0.0 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
-	github.com/cloudflare/circl v1.3.7 // indirect
+	github.com/cloudflare/circl v1.6.1 // indirect
 	github.com/cyphar/filepath-securejoin v0.2.4 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/emicklei/go-restful/v3 v3.9.0 // indirect
